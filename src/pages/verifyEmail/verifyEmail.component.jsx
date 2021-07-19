@@ -74,51 +74,142 @@ export default class VerifyEmail extends Component {
         }
     ]
 
+    setoutput = (err, data) =>{
+        const { searchInput } = this.state;
+        if (err) console.log(err, err.stack); // an error occurred
+        else {
+            let item = JSON.parse(data.Payload)
+          console.log(item)
+        //   let rate = JSON.parse(data.Payload)
+          this.setState({ loaderVisible: false ,
+            result: {
+                Format: 'Valid',
+                ServerStatus: 'Valid',
+                EmailStatus: item.catchAll.status === 'valid' ? 'accept all' : item.message.status === 'valid' ?  'Valid' : 'In-Valid',
+                Type: isEmailBusiness(searchInput) ? 'Professional' : item.message.status === 'valid' ? 'Personal' : 'In-Valid',
+                Domain: searchInput.split('@')[1]
+            }
+          })
+        }
+      }
+
     onSearchHandle = async (event) => {
 
         event.preventDefault();
         const { searchInput } = this.state;
         this.setState({result: undefined})
+        
+        let lambda = new AWS.Lambda();
         if (validateEmail(searchInput)) {
 
             this.setState({ loaderVisible: true });
-
-              await fetch(`${config.prod_server_api}/api-v1/guest/email-verifer`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-
-                body: JSON.stringify({ post: searchInput }),
-
-                })
-                .then( res => res.json() )
-                .then( res => {
-                    let mail = res.response
-                    if(mail){
-                        this.setState({
-                            result: {
-                                Format: mail.wellformed ? 'Valid' : 'In-Valid',
-                                ServerStatus: mail.validDomain ? 'Valid' : 'In-Valid',
-                                EmailStatus: mail.acceptAll ? 'accept all' : mail.validMailbox ? 'Valid' : 'In-Valid',
-                                Type: isEmailBusiness(searchInput) ? 'Professional' : mail.validMailbox ? 'Personal' : 'In-Valid',
-                                Domain: searchInput.split('@')[1]
-                            }
-                    })}else{
-                        this.setState({searchInputEmpty: true, errMessage: 'You are out of your daily limits', loaderVisible: false})
+            let EmailFormat = validateEmail(searchInput)
+            if(EmailFormat){
+                let params = {
+                    FunctionName: 'EmailVerifier', /* required */
+                    Payload: JSON.stringify({
+                      'email': searchInput
+                    })
+                  }
+                  lambda.invoke(params, (err, data) => this.setoutput(err, data));
+            }else{
+                this.setState({ loaderVisible: false ,
+                    result: {
+                        Format: 'In-Valid',
+                        ServerStatus: 'In-Valid',
+                        EmailStatus: 'In-Valid',
+                        Type: 'In-Valid',
+                        Domain: 'In-Valid'
                     }
+                })
+            }
+            
 
-                })
-                .then( () => {
-                    this.setState({ loaderVisible: false });
-                })
-                .catch( err => {
-                    this.setState({searchInputEmpty: true, errMessage: 'Please Try again later', loaderVisible: false})
-                })
+            //   await fetch(`${config.prod_server_api}/api-v1/verifier`, {
+            //     method: 'POST',
+            //     headers: {
+            //         'Authorization': `<Bearer> ${this.props.token}` ,
+            //         'Content-Type': 'application/json',
+            //     },
+
+            //     body: JSON.stringify({ post: searchInput }),
+
+            //     })
+            //     .then( res => res.json() )
+            //     .then( res => {
+            //         let mail = res.response
+            //         console.log(mail)
+            //         if(mail){
+            //             this.setState({
+            //                 result: {
+            //                     Format: mail.wellformed ? 'Valid' : 'In-Valid',
+            //                     ServerStatus: mail.validDomain ? 'Valid' : 'In-Valid',
+            //                     EmailStatus: mail.acceptAll ? 'accept all' : mail.validMailbox ? 'Valid' : 'In-Valid',
+            //                     Type: isEmailBusiness(searchInput) ? 'Professional' : mail.validMailbox ? 'Personal' : 'In-Valid',
+            //                     Domain: searchInput.split('@')[1]
+            //                 }
+            //         })}else{
+            //             this.setState({searchInputEmpty: true, errMessage: 'You are out of your daily limits', loaderVisible: false})
+            //         }
+
+            //     })
+            //     .then( () => {
+            //         this.setState({ loaderVisible: false });
+            //     })
+            //     .catch( err => {
+            //         console.log(err)
+            //         this.setState({searchInputEmpty: true, errMessage: 'Please Try again later', loaderVisible: false})
+            //     })
         } else {
             this.setState({searchInputEmpty: true, errMessage: 'Enter a valid email', loaderVisible: false})
         }
     }
+
+    // onSearchHandle = async (event) => {
+
+    //     event.preventDefault();
+    //     const { searchInput } = this.state;
+    //     this.setState({result: undefined})
+    //     if (validateEmail(searchInput)) {
+
+    //         this.setState({ loaderVisible: true });
+
+    //           await fetch(`${config.prod_server_api}/api-v1/guest/email-verifer`, {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //             },
+
+    //             body: JSON.stringify({ post: searchInput }),
+
+    //             })
+    //             .then( res => res.json() )
+    //             .then( res => {
+    //                 let mail = res.response
+    //                 if(mail){
+    //                     this.setState({
+    //                         result: {
+    //                             Format: mail.wellformed ? 'Valid' : 'In-Valid',
+    //                             ServerStatus: mail.validDomain ? 'Valid' : 'In-Valid',
+    //                             EmailStatus: mail.acceptAll ? 'accept all' : mail.validMailbox ? 'Valid' : 'In-Valid',
+    //                             Type: isEmailBusiness(searchInput) ? 'Professional' : mail.validMailbox ? 'Personal' : 'In-Valid',
+    //                             Domain: searchInput.split('@')[1]
+    //                         }
+    //                 })}else{
+    //                     this.setState({searchInputEmpty: true, errMessage: 'You are out of your daily limits', loaderVisible: false})
+    //                 }
+
+    //             })
+    //             .then( () => {
+    //                 this.setState({ loaderVisible: false });
+    //             })
+    //             .catch( err => {
+    //                 this.setState({searchInputEmpty: true, errMessage: 'Please Try again later', loaderVisible: false})
+    //             })
+    //     } else {
+    //         this.setState({searchInputEmpty: true, errMessage: 'Enter a valid email', loaderVisible: false})
+    //     }
+    // }
 
     onInputChange = (e) => {
         this.setState({ searchInputEmpty: false });
