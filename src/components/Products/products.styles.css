@@ -1,0 +1,45 @@
+section.products {
+    background-color: #fafbfb;
+}
+
+.products h2 {
+    font-size: 24px;
+    margin: 0 0 40px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.products a.product-link {
+    background-color: #fff;
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    color: #191919;
+    display: block;
+    margin-top: 30px;
+    padding: 25px;
+    text-align: center;
+    text-decoration: none;
+    transition: all .25s ease;
+}
+
+.products a.product-link:hover {
+    box-shadow: 0 3px 10px rgb(0 0 0 / 10%);
+    transform: translateY(-3px);
+}
+
+a.product-link > .fal, a.product-link > .fab {
+    color: #168eea;
+    font-size: 35px;
+}
+
+.product-link h3 {
+    font-size: 17px;
+    font-weight: 600;
+    margin: 25px 0 5px;
+}
+
+a.product-link  p {
+    color: #555;
+    font-size: 14px;
+    margin: 0;
+}

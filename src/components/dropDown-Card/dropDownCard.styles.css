@@ -1,0 +1,36 @@
+.dropdown-card.card {
+    background-color: #fff;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    box-shadow: 0 5px 30px -3px rgb(0 0 0 / 30%);
+    margin-left: -10px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    top: 68px;
+    transform: scale(.95) translateY(-20px);
+    transition: all .1s ease-in-out 0s,visibility 0s linear .2s,z-index 0s linear .01s;
+    visibility: hidden;
+    width: 400px;
+    z-index: 101;
+}
+
+.menu>li:hover .dropdown-card.card {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    transition-delay: 0s,0s,.3s;
+    visibility: visible;
+}
+
+.dropdown-card.card a {
+    cursor: pointer;
+    display: flex;
+    font-size: 14px;
+    margin: 4px 0;
+    max-width: 100%;
+    width: 100%;
+}
+
+.dropdown-card.card.small {
+    width: 350px;
+}

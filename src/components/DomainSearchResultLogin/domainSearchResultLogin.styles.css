@@ -1,0 +1,45 @@
+.domainLogin.result-information {
+    display: flex;
+    justify-content: space-between;
+}
+
+.domainLogin.result-information .search-pattern span[data-toggle=tooltip] {
+    cursor: help;
+}
+
+form .domain-search-cta {
+    line-height: 24px;
+    padding-top: 10px;
+}
+
+.search-results .result {
+    border-bottom: 1px solid #e6e6e6;
+    margin: 0 -40px;
+    padding: 20px 40px;
+    text-align: left;
+}
+
+.email-container .email {
+    cursor: default;
+}
+
+.search-results p.grey.search-see-all {
+    margin: 25px 0;
+}
+
+
+.additional_data.grey {
+    font-size: 13px;
+    margin-bottom: 5px;
+}
+
+.additional_data span.name {
+    color: #191919;
+    font-size: 15px;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.additional_data span.position {
+    margin-left: 5px;
+}

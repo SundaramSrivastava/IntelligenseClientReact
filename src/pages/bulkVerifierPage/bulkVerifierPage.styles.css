@@ -1,0 +1,81 @@
+div#bulk-upload {
+    border-top: 1px solid #e6e6e6;
+    margin: 40px -28px 0;
+    padding: 0 28px;
+}
+
+textarea#bulk_verification_emails {
+    height: 80px;
+    padding: 8px 12px;
+}
+
+.full-width.file-area {
+    position: relative;
+    z-index: 10;
+    background: #fff;
+}
+
+input#bulk_verification_file {
+    left: 0;
+    width: 100%;
+    position: absolute;
+    right: 0;
+    height: 100%;
+    top: 0;
+    z-index: 0;
+}
+
+.inputcontainer {
+    position: relative;
+}
+
+.full-width.file-area {pointer-events: none;}
+
+input#bulk_verification_file {
+    pointer-events: all;
+    cursor: pointer;
+}
+
+.bulk-preview {
+    border-top: 1px solid #e6e6e6;
+    margin: 30px -28px 0;
+    padding: 30px 28px 0;
+    width: calc(100% + 56px);
+}
+
+div.previewLoader {
+    color: #888;
+    margin: 20px 0 0;
+    text-align: center;
+    font-size: 35px;
+}
+
+.legend-color {
+    border-radius: 50%;
+    display: inline-block;
+    height: 8px;
+    margin-right: 5px;
+    width: 8px;
+}
+
+.accept_all-color {
+    background-color: #ffbe42;
+}
+
+.valid-color {
+    background-color: #62bb00;
+}
+
+.invalid-color {
+    background-color: #ea8585;
+}
+
+.verticle-scroll {
+    overflow-y: scroll;
+    max-height: 550px;
+}
+
+.board-box .horizontal-scroll::-webkit-scrollbar, .onboarding-box .horizontal-scroll::-webkit-scrollbar {
+    width: 2px;
+    height: 3px;
+}

@@ -1,0 +1,59 @@
+.pageHolder404 {
+    display: block;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+.dialog404 {
+    text-align: center;
+    margin: 50px auto;
+    max-width: 600px;
+    padding: 20px;
+}
+
+.dialog404 .error-code {
+    font-size: 250px;
+    color: #eee;
+    font-weight: 600;
+}
+
+.dialog404 h1 {
+    font-weight: bold;
+    color: #555;
+    margin-top: 0;
+}
+
+.dialog404 p {
+    font-size: 18px;
+    color: #888;
+    line-height: 30px;
+}
+
+.dialog404 p a,.dialog404 p a:hover,.dialog404 p a:focus {
+    color: #888;
+    text-decoration: none;
+    border-bottom: 1px dotted #888;
+}
+
+.dialog404 a.cta {
+    margin: 10px 5px;
+    font-weight: 700;
+    display: inline-block;
+    text-decoration: none;
+    padding: 16px 22px;
+    font-size: 16px;
+    color: #fff;
+    background: #ff5722;
+    -webkit-transition: background-color 200ms ease-in-out;
+    -moz-transition: background-color 200ms ease-in-out;
+    -ms-transition: background-color 200ms ease-in-out;
+    transition: background-color 200ms ease-in-out;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+
+.dialog404 a.cta:hover {
+    background: #ee3900;
+    color: #fff;
+}

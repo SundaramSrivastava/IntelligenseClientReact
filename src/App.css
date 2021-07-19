@@ -1,0 +1,151 @@
+.front-header {
+    color: #191919;
+    background: #fafbfb;
+    border: 0;
+    overflow: auto;
+}
+
+.front-breadcrumb {
+    padding-top: 80px;
+}
+
+.subtitle {
+    color: #737373;
+    font-size: 19px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 30px;
+    margin: 15px auto 0;
+    max-width: 600px;
+    text-align: center;
+}
+
+
+
+.text-content .text-subtitle {
+    color: #888;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+}
+
+.text-content h3 {
+    color: #191919;
+    display: inline-block;
+    font-size: 17px;
+    font-weight: 600;
+    margin: 0 0 12px;
+}
+
+.text-content p {
+    font-size: 16px;
+    line-height: 26px;
+    margin: 0;
+}
+
+a.blue-cta {
+    border-bottom: 1px solid #a2d2f7;
+    color: #168eea;
+    text-decoration: none;
+    -webkit-transition: all .25s ease;
+    -moz-transition: all .25s ease;
+    -ms-transition: all .25s ease;
+    transition: all .25s ease;
+}
+
+p.big-p {
+    color: #555;
+}
+
+.big-p {
+    font-size: 22px;
+    line-height: 38px;
+}
+a.blue-cta:hover {
+    border-bottom: 1px solid #5cb0f0;
+    color: #168eea;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+/* dashboard common styles */
+.dashboard .dashboard-body {
+    margin-top: 40px;
+    overflow-x: auto;
+}
+
+.dashboard .dashboard-body>.container {
+    max-width: 820px;
+}
+
+.dashboard .dashboard-body>.container {
+    margin-top: 20px;
+    min-width: 370px;
+}
+
+.dashboard-search .input-group.main-input-group {
+    border: 1px solid #d2d2d2;
+    border-radius: 3px;
+    box-shadow: 0 1px 3px rgb(0 0 0 / 6%);
+    height: 52px;
+    margin: 0 -4px;
+    transition: all .15s ease;
+    width: calc(100% + 8px);
+    z-index: 1;
+}
+
+.toolbar {
+    margin-bottom: 20px;
+}
+
+.dashboard-search .toolbar #type-filter {
+    display: inline-block;
+    margin-top: 20px;
+    padding-left: 1px;
+}
+
+.dashboard label {
+    display: inline-block;
+    font-weight: 700;
+    margin-bottom: 5px;
+    max-width: 100%;
+}
+
+.dashboard label {
+    color: #191919;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 3px;
+}
+
+.radios-container label.radio-container {
+    font-weight: 500;
+}
+
+
+.dashboard .filter-label {
+    display: inline-block;
+    font-size: 14px;
+    margin-right: 12px;
+}
+
+input[type=checkbox], input[type=radio] {
+    line-height: normal;
+    margin: 4px 0 0;
+    margin-top: 1px\9;
+}
+
+.radios-container input[type=radio] {
+    display: none;
+}
+
+.at-form {
+    border-left: 1px solid #d9d9d9;
+    border-right: 1px solid #d9d9d9;
+    color: #888;
+    float: left;
+    font-size: 16px;
+    height: 52px;
+    padding: 12px 15px;
+}

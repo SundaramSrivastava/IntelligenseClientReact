@@ -1,0 +1,5 @@
+export const searchTypes = {
+    SET_RESULT: 'SET_RESULT',
+    SET_SEARCH_QUERY: 'SET_SEARCH_QUERY',
+    SET_START_SEARCH: 'SET_START_SEARCH'
+}

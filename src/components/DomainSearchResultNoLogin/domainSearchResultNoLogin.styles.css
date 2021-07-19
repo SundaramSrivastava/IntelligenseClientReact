@@ -1,0 +1,29 @@
+.domainNoLogin.result-information {
+    display: flex;
+    justify-content: space-between;
+}
+
+.domainNoLogin.result-information .search-pattern span[data-toggle=tooltip] {
+    cursor: help;
+}
+
+form .domain-search-cta {
+    line-height: 24px;
+    padding-top: 10px;
+}
+
+.search-results .result {
+    border-bottom: 1px solid #e6e6e6;
+    margin: 0 -40px;
+    padding: 20px 40px;
+    text-align: left;
+}
+
+.email-container .email {
+    cursor: default;
+}
+
+.search-results p.grey.search-see-all {
+    margin: 25px 0;
+}
+

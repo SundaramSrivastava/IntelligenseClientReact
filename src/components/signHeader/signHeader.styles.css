@@ -1,0 +1,17 @@
+.login-header {
+    margin: 12px 0 40px;
+    padding: 0 10px;
+}
+
+a.login-navbar-logo {
+    display: block;
+    margin-bottom: 40px;
+    max-width: 110px;
+    max-height: 20px;
+}
+
+.login-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

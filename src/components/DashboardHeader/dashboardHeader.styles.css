@@ -1,0 +1,119 @@
+.dashboard {
+    background-color: #fafbfb;
+    padding-bottom: 100px;
+}
+
+.dashboard-header {
+    background-color: #fff;
+    border-bottom: 1px solid #d9d9d9;
+    height: 68px;
+    position: relative;
+    z-index: 10;
+}
+
+
+
+.dashboard nav.navbar {
+    margin-bottom: 0;
+    margin-top: 0;
+    min-height: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    padding: 0;
+}
+
+.dashboard .brand {
+    font-size: 18px;
+    line-height: 20px;
+    max-height: 50px;
+    padding: 0px 0px 20px 20px;
+    max-width: 140px;
+}
+
+nav.navbar ul {
+    padding: 0;
+}
+
+li.nav-link {
+    padding: 0;
+}
+
+nav.navbar .nav-link>a {
+    border-bottom: 2px solid #fff;
+    color: #3f3f3f;
+    font-size: 14px;
+    height: 66px;
+    margin: 0 8px;
+    padding: 20px 4px;
+    transition: all .1s ease-in-out;
+}
+
+nav.navbar .nav-link>a:hover {
+    border-bottom: 2px solid #e6e6e6;
+    text-decoration: none;
+}
+
+.dashboard nav.navbar .nav-link>a.active {
+    border-bottom: 2px solid #ff5722;
+    color: #ff5722;
+}
+
+.dashboard nav.navbar ul {
+    flex-direction: row-reverse;
+}
+
+.user {
+    margin-left: auto;
+}
+
+.user li#dropdown-account-link {
+    border-left: 1px solid #e6e6e6;
+    margin-right: 15px;
+    padding: 13px 18px;
+}
+
+.user span.fas.fa-angle-down {
+    color: #737373;
+    display: block;
+    float: right;
+    margin: 14px 0 0;
+}
+
+.profile-pic.pic-float {
+    border-radius: 50%;
+    height: 36px;
+    width: 36px;
+    margin-top: 2px;
+    position: relative;
+}
+
+.profile-pic.pic-float img {
+    border-radius: 50%;
+    height: 36px;
+    width: 36px;
+}
+
+.account-information {
+    float: right;
+    font-size: 13px;
+    line-height: 20px;
+    margin: 0 14px;
+}
+
+.profile-pic img{
+    opacity: 1;
+}
+li#dropdown-account-link {
+    cursor: pointer;
+}
+
+li#dropdown-account-link:hover {
+    background-color: #f7f9f9;
+    outline: none;
+}
+@media (min-width: 768px){
+    .dashbaord nav.navbar {
+        border-radius: 4px;
+    }
+}

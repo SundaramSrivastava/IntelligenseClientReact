@@ -1,0 +1,240 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap');
+@import url('./assets/icons/fab.css');
+
+html {
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  font-family: sans-serif;
+}
+
+html {
+  -webkit-tap-highlight-color: transparent;
+  font-size: 10px;
+}
+
+body {
+  display: block;
+  margin: 8px;
+}
+
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: #fff;
+  color: #333;
+  font-size: 14px !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-display: swap;
+  font-family: Open Sans,sans-serif!important;
+  line-height: 1.8em !important;
+  padding: 0;
+}
+
+body, #root, .dashboard-body.login, .dashboard {
+  height: 100%;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+::selection {
+  background: #262626;
+  color: #fff;
+}
+
+b, strong {
+  font-weight: 600 !important;
+}
+
+img {
+  display: block;
+  height: auto;
+  max-width: 100%;
+}
+
+body h1, body h2, body h3, body h4 {
+  line-height: 1.5em;
+}
+
+/* Search Form */
+.search-form-container {
+  background-color: #fff;
+  border-radius: 3px;
+  box-shadow: 0 6px 30px rgb(0 0 0 / 25%);
+  max-width: 680px;
+  padding: 40px;
+}
+
+.search-form-container form {
+  font-size: 14px;
+}
+
+.search-form-container form .input-group {
+  box-shadow: 0 1px 4px rgb(0 0 0 / 8%);
+  transition: all .15s ease;
+}
+
+.input-group {
+  border-collapse: separate;
+  position: relative;
+}
+
+.search-form-container form .input-group input.form-control {
+  background: #fff;
+  border-right: 0!important;
+  border-color: #ff916f;
+  font-size: 16px;
+  height: 52px;
+}
+
+.search-form-container form .input-group input.form-control.is-invalid {
+  border-color: #dc3545;
+}
+
+span.input-group-btn {
+  vertical-align: middle;
+  font-size: 0;
+  position: relative;
+  white-space: nowrap;
+}
+
+.search-form-container form .input-group .btn-orange {
+  border-bottom-left-radius: 0;
+  border-left: 0;
+  border-top-left-radius: 0;
+  font-weight: 600;
+  height: 52px;
+  padding: 12px 20px;
+  text-align: center;
+  width: 100%;
+}
+
+.search-form-container form .before-search-message {
+  font-size: 15px;
+  margin-top: 15px;
+}
+
+.search-form-container form .before-search-message p:last-child {
+  margin-bottom: 0;
+}
+
+.search-results-container{
+  margin-top: 20px;
+}
+
+.nologin section.product-demo {
+  margin-top: -180px;
+  padding-bottom: 0;
+}
+
+.nologin section {
+  color: #404040;
+  font-size: 16px;
+  padding: 100px 0;
+}
+
+.nologin .container {padding: 0;}
+
+.nologin .product-demo form {
+  font-size: 14px;
+}
+
+.product-demo form {
+  background-color: #fff;
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  box-shadow: 0 6px 30px rgb(0 0 0 / 25%);
+  margin: 0 auto 100px;
+  max-width: 770px;
+  padding: 40px;
+}
+
+.nologin .homepage-header h1 {
+  font-size: 42px;
+  font-weight: 500;
+  margin: 80px 0 100px;
+  text-align: center;
+  margin-bottom: 150px;
+}
+
+.nologin h1 span.icon.icon-Magnifying-Glass-1 {
+  margin-right: 10px;
+}
+
+.input-group.main-input-group {
+  overflow: hidden;
+}
+
+.nologin .front-header-bg {
+  background-color: #fafbfb;
+  border-bottom: 2px solid #e6e6e6;
+  color: #191919;
+}
+
+.nologin .front-header-bg {
+  background-color: #fafbfb;
+  border-bottom: 2px solid #e6e6e6;
+  color: #191919;
+}
+
+.nologin h2 {
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 50px;
+  margin: 0 0 30px;
+  margin-bottom: 30px;
+  text-align: left;
+  color: #191919;
+}
+
+.featured-content a.btn-orange.btn-lg {
+  margin: 40px 0 60px;
+}
+
+.featured-content .text-content  h3 {
+  font-size: 19px;
+}
+
+
+.nologin .featured-content a.blue-cta {
+  display: inline-block;
+  margin-bottom: 40px;
+  font-size: 16px;
+  margin-top: 20px;
+}
+
+.nologin section.customers {
+  padding: 0 0 80px;
+}
+
+.nologin .row {
+  margin: 0;
+}
+
+.nologin h1 .icon {
+  margin-right: 10px;
+}
+
+.input-group.main-input-group{
+  width: calc(100% + 8px);
+}
+
+.alert.alert-small {
+  position: absolute;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  width: 21%;
+  border-radius: 8px;
+  background-color: #ffd1d185;
+  bottom: 3%;
+}

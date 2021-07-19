@@ -1,0 +1,101 @@
+.homepage-header h1 {
+    text-align: center;
+    font-size: 40px;
+    font-weight: 500;
+    margin: 90px 0 40px;
+}
+
+.homepage .search-form-container {
+  margin: 40px auto 60px;
+}
+
+.homepage section {
+    color: #404040;
+    font-size: 16px;
+    padding: 100px 0;
+}
+
+.section.customers {
+    padding: 30px 0;
+    background: #fafbfb;
+    border-bottom: 2px solid #e1e1e1;
+}
+
+.homepage section .container {
+    padding: 0;
+}
+
+.customers-intro {
+    color: #737373;
+    font-size: 17px;
+    font-weight: 500;
+    margin: 20px;
+    text-align: center;
+}
+
+.homepage section .container .row {
+    margin: 0;
+    padding: 0;
+}
+
+.customers img {
+    border-radius: 0;
+    display: block;
+    height: 26px;
+    margin: 20px auto;
+    opacity: .25;
+}
+
+.homepage section.homepage-description {
+    border-bottom: 2px solid #e6e6e6;
+}
+
+.homepage a.blue-cta {
+    display: inline-block;
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+.homepage a.blue-cta:after{
+    content: "›";
+    margin-left: 0.3em;
+    border-bottom: 0px !important;
+}
+
+.homepage a.blue-cta:hover{
+    border-bottom: 1px solid #5cb0f0;
+    color: #168eea;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.homepage section.data-privacy {
+    background: url(../../assets/image/dataprivacy.jpeg) no-repeat center 60px;
+    background-size: 700px;
+    padding: 100px 0 140px;
+    text-align: center;
+}
+
+.homepage section h2 {
+    color: #191919;
+    font-size: 27px;
+    font-weight: 500;
+    margin: 0 0 30px;
+    text-align: center;
+}
+
+.homepage section.data-privacy h2 {
+    font-size: 36px;
+}
+
+
+
+.homepage section p.big-p {
+    font-size: 22px;
+    line-height: 38px;
+}
+
+.homepage section.data-privacy p.big-p {
+    margin: 0 auto 30px;
+    max-width: 700px;
+}
