@@ -42,6 +42,25 @@ class EmailVerifierDashboard extends Component {
     //     EmailStatus: 'accept all'
     // }
 
+    setoutput = (err, data) =>{
+        const { searchInput } = this.state;
+        if (err) console.log(err, err.stack); // an error occurred
+        else {
+            let item = JSON.parse(data.Payload)
+          console.log(item)
+        //   let rate = JSON.parse(data.Payload)
+          this.setState({ loaderVisible: false ,
+            result: {
+                Format: 'Valid',
+                ServerStatus: 'Valid',
+                EmailStatus: item.catchAll.status === 'valid' ? 'accept all' : item.message.status === 'valid' ?  'Valid' : 'In-Valid',
+                Type: isEmailBusiness(searchInput) ? 'Professional' : item.message.status === 'valid' ? 'Personal' : 'In-Valid',
+                Domain: 'In-Valid'
+            }
+          })
+        }
+      }
+
     onSearchHandle = async (event) => {
 
         event.preventDefault();
@@ -60,23 +79,7 @@ class EmailVerifierDashboard extends Component {
                       'email': searchInput
                     })
                   }
-                  lambda.invoke(params, function (err, data) {
-                    if (err) console.log(err, err.stack); // an error occurred
-                    else {
-                        let item = JSON.parse(data.Payload)
-                      console.log(item)
-                    //   let rate = JSON.parse(data.Payload)
-                      this.setState({ loaderVisible: false ,
-                        result: {
-                            Format: 'Valid',
-                            ServerStatus: 'Valid',
-                            EmailStatus: item.catchAll.status === 'valid' ? 'accept all' : item.message.status === 'valid' ?  'Valid' : 'In-Valid',
-                            Type: isEmailBusiness(searchInput) ? 'Professional' : item.message.status === 'valid' ? 'Personal' : 'In-Valid',
-                            Domain: 'In-Valid'
-                        }
-                      })
-                    }
-                  });
+                  lambda.invoke(params, this.setoutput(err, data));
             }else{
                 this.setState({ loaderVisible: false ,
                     result: {
