@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Alert from 'react-bootstrap/Alert';
+import AWS from 'aws-sdk'
 
 import './verifyEmail.styles.css';
 
@@ -43,6 +44,11 @@ export default class VerifyEmail extends Component {
             loaderVisible: false,
             errMessage: 'Please enter a valid domain'
         }
+        AWS.config.update({
+            accessKeyId: process.env.REACT_APP_ACCESS_ID,
+            secretAccessKey: process.env.REACT_APP_SECRET_KEY,
+            region: 'us-east-1'
+          })
     }
 
     // res = {
