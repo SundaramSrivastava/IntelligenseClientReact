@@ -55,7 +55,7 @@ class EmailVerifierDashboard extends Component {
                 ServerStatus: 'Valid',
                 EmailStatus: item.catchAll.status === 'valid' ? 'accept all' : item.message.status === 'valid' ?  'Valid' : 'In-Valid',
                 Type: isEmailBusiness(searchInput) ? 'Professional' : item.message.status === 'valid' ? 'Personal' : 'In-Valid',
-                Domain: 'In-Valid'
+                Domain: searchInput.split('@')[1]
             }
           })
         }
