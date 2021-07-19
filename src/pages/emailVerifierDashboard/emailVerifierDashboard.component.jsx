@@ -64,7 +64,7 @@ class EmailVerifierDashboard extends Component {
                     if (err) console.log(err, err.stack); // an error occurred
                     else {
                       console.log(JSON.parse(data.Payload))
-                      let data = data.Payload
+                      let data = JSON.parse(data.Payload)
                       this.setState({ loaderVisible: false ,
                         result: {
                             Format: 'Valid',
