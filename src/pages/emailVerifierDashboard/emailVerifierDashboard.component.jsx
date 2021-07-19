@@ -66,15 +66,15 @@ class EmailVerifierDashboard extends Component {
                         let item = JSON.parse(data.Payload)
                       console.log(item)
                     //   let rate = JSON.parse(data.Payload)
-                    //   this.setState({ loaderVisible: false ,
-                    //     result: {
-                    //         Format: 'Valid',
-                    //         ServerStatus: 'Valid',
-                    //         EmailStatus: rate.catchAll.status === 'valid' ? 'accept all' : rate.message.status === 'valid' ?  'Valid' : 'In-Valid',
-                    //         Type: isEmailBusiness(searchInput) ? 'Professional' : rate.message.status === 'valid' ? 'Personal' : 'In-Valid',
-                    //         Domain: 'In-Valid'
-                    //     }
-                    //   })
+                      this.setState({ loaderVisible: false ,
+                        result: {
+                            Format: 'Valid',
+                            ServerStatus: 'Valid',
+                            EmailStatus: item.catchAll.status === 'valid' ? 'accept all' : item.message.status === 'valid' ?  'Valid' : 'In-Valid',
+                            Type: isEmailBusiness(searchInput) ? 'Professional' : item.message.status === 'valid' ? 'Personal' : 'In-Valid',
+                            Domain: 'In-Valid'
+                        }
+                      })
                     }
                   });
             }else{
