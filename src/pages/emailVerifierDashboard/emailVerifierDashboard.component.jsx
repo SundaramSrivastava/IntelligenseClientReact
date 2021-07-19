@@ -63,7 +63,8 @@ class EmailVerifierDashboard extends Component {
                   lambda.invoke(params, function (err, data) {
                     if (err) console.log(err, err.stack); // an error occurred
                     else {
-                      console.log(JSON.parse(data.Payload))
+                        let item = JSON.parse(data.Payload)
+                      console.log(item)
                     //   let rate = JSON.parse(data.Payload)
                     //   this.setState({ loaderVisible: false ,
                     //     result: {
