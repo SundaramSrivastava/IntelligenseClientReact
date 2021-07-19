@@ -79,3 +79,27 @@ div.previewLoader {
     width: 2px;
     height: 3px;
 }
+
+.top-banner {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    right: 0;
+    background: #00000059;
+    z-index: 9999999999999999999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 3.9vw;
+    font-family: monospace;
+}
+
+.comminsoon.dashboard-body {
+    position: relative;
+}
+
+.comminsoon.dashboard-body {
+    margin: 0;
+}

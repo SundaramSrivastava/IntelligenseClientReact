@@ -131,9 +131,12 @@ class BulkVerifierPage extends Component {
         const EmailfileInput = this.EmailfileInput
 
         return (
-            <div className="dashboard domainsearch">
+            <div className="dashboard comminsoon domainsearch">
                 <DashboardHeader activePage={"Bulks"}/>
                 <div className="dashboard-body">
+                    <div className="top-banner">
+                        COMMING SOON...
+                    </div>
                     <Container>
                         <div className="board-box">
                             <h2>
