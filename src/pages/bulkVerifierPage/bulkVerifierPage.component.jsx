@@ -127,7 +127,13 @@ class BulkVerifierPage extends Component {
             let localEmailList = await data;
             await console.log(localEmailList)
             // await localEmailList.map(email => this.mailChecker(email))
-            await localEmailList.map(email => this.lambadaVerifier(email))
+            await localEmailList.map(email => {
+                if(this.state.searchInput != ''){
+                    this.lambadaVerifier(email)
+                }else{
+                    this.lambadaVerifier(email[0])
+                }
+            })
 
             await this.setState({loaderVisible: false})
             // Here this is available and we can call this.setState (since it's binded in the constructor)
