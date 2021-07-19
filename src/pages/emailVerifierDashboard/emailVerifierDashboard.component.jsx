@@ -79,7 +79,7 @@ class EmailVerifierDashboard extends Component {
                       'email': searchInput
                     })
                   }
-                  lambda.invoke(params, this.setoutput(err, data));
+                  lambda.invoke(params, (err, data) => this.setoutput(err, data));
             }else{
                 this.setState({ loaderVisible: false ,
                     result: {
