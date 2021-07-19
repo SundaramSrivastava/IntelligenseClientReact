@@ -85,7 +85,7 @@ class DomainSearchDashboard extends Component {
                         if(data.rowCount !== 0){
                             this.setState({result: details, totalResultCount: data.count})
                         }else{
-                            this.setState({searchInputEmpty: true, errMessage: 'You are out of your daily limits'})
+                            this.setState({searchInputEmpty: true, errMessage: 'Sorry we are not able to find data for this domain'})
                         }
                     
                     this.setState({loaderVisible: false})
@@ -93,7 +93,7 @@ class DomainSearchDashboard extends Component {
                 .then(() => this.setresult(this.state.filterType))
                 .catch( err => { 
                     console.log(err)
-                    this.setState({searchInputEmpty: true, errMessage: 'You are out of your daily limits', loaderVisible: false})
+                    this.setState({searchInputEmpty: true, errMessage: 'Sorry we are not able to find data for this domain', loaderVisible: false})
                 } 
                 )
         }else{
