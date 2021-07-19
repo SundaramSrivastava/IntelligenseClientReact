@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import Papa from 'papaparse';
 import throttledQueue from 'throttled-queue';
 import { CSVLink, CSVDownload } from "react-csv";
+import AWS from 'aws-sdk'
 
 import './bulkVerifierPage.styles.css';
 
@@ -25,12 +26,20 @@ class BulkVerifierPage extends Component {
             result: [],
             loaderVisible: false,
             emailList: [],
-            errMessage: 'Please enter a valid domain'
+            errMessage: 'Please enter a valid domain',
+            fileName: ''
         }
 
 
         this.throttle = throttledQueue(1500, 5000);
         this.EmailfileInput = React.createRef()
+
+
+        AWS.config.update({
+            accessKeyId: process.env.REACT_APP_ACCESS_ID,
+            secretAccessKey: process.env.REACT_APP_SECRET_KEY,
+            region: 'us-east-1'
+          })
         
     }
 
@@ -47,39 +56,64 @@ class BulkVerifierPage extends Component {
         this.setState({result: [...this.state.result, {email: email, EmailStatus: data.response.acceptAll ? 'accept all' : data.response.validMailbox ? 'Valid' : 'In-Valid'}]})
     }
 
-    apicalling = email => {
-
-        console.log(this.props.token)
-        let header = {
-            'Authorization': `<Bearer> ${this.props.token}`,
-            'Content-Type': 'application/json',
-          }
-            console.log("sent")
-            fetch(`${config.prod_server_api}/api-v1/verifier`, {
-              method: 'POST',
-              headers: header,
-              body: JSON.stringify({ post: email })
-            })
-              .then((response) => response.json())
-              .then(data => {
-                console.log(data)
-                // if (data.response.validMailbox) {
-                //   localVerifiedList.push(email)
-                //   setVerifiedList([...localVerifiedList])
-                // } else {
-                //   localUnVerifiedList.push(email)
-                //   setUnVerifiedList([...localUnVerifiedList])
-                // }
-                this.updateResult(data, email)
-              })
-              .then( () => console.log(this.state.result) )
-              .catch(err => {
-                console.log(err)
-              })
-          }
-    mailChecker = (email, index) => {
-        this.throttle(this.apicalling(email))
+    setoutput = (err, data, email) =>{
+        if (err) console.log(err, err.stack); // an error occurred
+        else {
+            let item = JSON.parse(data.Payload)
+          console.log(item)
+        //   let rate = JSON.parse(data.Payload)
+          this.setState({
+            result: [...this.state.result, {email: email, EmailStatus: item.catchAll.status === 'valid' ? 'accept all' : item.message.status === 'valid' ?  'Valid' : 'In-Valid'}]
+          })
+        }
       }
+
+    // apicalling = email => {
+
+    //     console.log(this.props.token)
+    //     let header = {
+    //         'Authorization': `<Bearer> ${this.props.token}`,
+    //         'Content-Type': 'application/json',
+    //       }
+    //         console.log("sent")
+    //         fetch(`${config.prod_server_api}/api-v1/verifier`, {
+    //           method: 'POST',
+    //           headers: header,
+    //           body: JSON.stringify({ post: email })
+    //         })
+    //           .then((response) => response.json())
+    //           .then(data => {
+    //             console.log(data)
+    //             // if (data.response.validMailbox) {
+    //             //   localVerifiedList.push(email)
+    //             //   setVerifiedList([...localVerifiedList])
+    //             // } else {
+    //             //   localUnVerifiedList.push(email)
+    //             //   setUnVerifiedList([...localUnVerifiedList])
+    //             // }
+    //             this.updateResult(data, email)
+    //           })
+    //           .then( () => console.log(this.state.result) )
+    //           .catch(err => {
+    //             console.log(err)
+    //           })
+    //       }
+    // mailChecker = (email, index) => {
+    //     this.throttle(this.apicalling(email))
+    //   }
+
+    lambadaVerifier = (email) => {
+        let lambda = new AWS.Lambda();
+
+            this.setState({ loaderVisible: true });
+                let params = {
+                    FunctionName: 'EmailVerifier', /* required */
+                    Payload: JSON.stringify({
+                      'email': email
+                    })
+                  }
+                  lambda.invoke(params, (err, data) => this.setoutput(err, data, email));
+    }
 
     onSearchHandle = async (event) => {
         event.preventDefault();
@@ -92,7 +126,9 @@ class BulkVerifierPage extends Component {
             const data = await result.data;
             let localEmailList = await data;
             await console.log(localEmailList)
-            await localEmailList.map(email => this.mailChecker(email))
+            // await localEmailList.map(email => this.mailChecker(email))
+            await localEmailList.map(email => this.lambadaVerifier(email))
+
             await this.setState({loaderVisible: false})
             // Here this is available and we can call this.setState (since it's binded in the constructor)
             //this.setState({data: data}); // or shorter ES syntax: this.setState({ data });
@@ -124,6 +160,10 @@ class BulkVerifierPage extends Component {
         this.setState({ searchInputEmpty: false });
         this.setState({ searchInput: e.target.value, result: [] })
     }
+
+    handleChangeFile = (e) => {
+        this.setState({fileName: e.target.files[0].name})
+    }
     render() {
         const { searchInput, result, searchInputEmpty, loaderVisible, errMessage } = this.state;
         const showSearchResult = result ? true : false;
@@ -131,12 +171,9 @@ class BulkVerifierPage extends Component {
         const EmailfileInput = this.EmailfileInput
 
         return (
-            <div className="dashboard comminsoon domainsearch">
+            <div className="dashboard domainsearch">
                 <DashboardHeader activePage={"Bulks"}/>
                 <div className="dashboard-body">
-                    <div className="top-banner">
-                        COMMING SOON...
-                    </div>
                     <Container>
                         <div className="board-box">
                             <h2>
@@ -162,9 +199,10 @@ class BulkVerifierPage extends Component {
                                     <div className="inputcontainer">
                                     <div className="full-width file-area" data-action="click->file-upload#openFileSelection">
                                         <div className="far fa-folder-open"></div>
-                                        Select a file
+                                        { this.state.fileName === '' ? 'Select a file' : this.state.fileName}
+                                        {console.log(this.state.fileName) }
                                     </div>
-                                        <input className="file-field" ref={this.EmailfileInput} data-file-upload-target="fileInput" data-action="change->file-upload#selectFile" type="file" name="bulk_verification[file]" id="bulk_verification_file" accept=".csv" />
+                                        <input className="file-field" ref={this.EmailfileInput} data-file-upload-target="fileInput" data-action="change->file-upload#selectFile" type="file" name="bulk_verification[file]" id="bulk_verification_file" accept=".csv" onChange={this.handleChangeFile}/>
                                     </div>
                                 </div>
                                 <div className="button-container">
