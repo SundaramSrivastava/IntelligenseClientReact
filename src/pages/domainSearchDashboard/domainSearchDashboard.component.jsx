@@ -9,6 +9,7 @@ import Container from 'react-bootstrap/Container';
 import { Link } from "react-router-dom";
 import Alert from 'react-bootstrap/Alert';
 import { connect } from "react-redux";
+import AWS from 'aws-sdk'
 
 import './domainSearchDashboard.styles.css';
 
@@ -31,8 +32,14 @@ class DomainSearchDashboard extends Component {
             totalResultCount: 0,
             errMessage: 'Please enter a valid domain',
             loaderVisible: false,
-            displayResult: []
+            displayResult: [],
+            splitElement: null
         }
+        AWS.config.update({
+            accessKeyId: process.env.REACT_APP_ACCESS_ID,
+            secretAccessKey: process.env.REACT_APP_SECRET_KEY,
+            region: 'us-east-1'
+          })
     }
 
     FilterArray = [
@@ -54,57 +61,149 @@ class DomainSearchDashboard extends Component {
     //     'anurag@newgenapps.com'
     // ];
 
+    extractEmails = ( text ) => {
+        return text.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/gi)[0];
+    }
+
+    extractContact = (text) => {
+        return text.match(/\d+/g);
+    }
+
+    getCommmonSpliter = (dividerMap) => {
+        let keysAre = Object.keys(dividerMap)
+
+        let highest = keysAre[0]
+        keysAre.map( (item, index) => {
+            if(highest < dividerMap[item]){
+                highest = keysAre[index]
+            }
+        })
+        console.log('highest -> ', highest)
+        return highest
+    }
+
+    getAllData = (err, data) => {
+        /**
+         *  designation: "software developer"
+         *  emails: "sundaram.srivastava@newgenapps.com"
+         *  firstname: "sundaram"
+         *  isVerified: true
+         *  lastname: "srivastava"
+        */
+        if(err){
+            console.log(err)
+        }else{
+            //  getting response in array
+            let responseData = JSON.parse(JSON.parse(data.Payload)).searchResult[0].split(/\r?\n/)
+            responseData.shift()
+            let outputData = []
+            let commonSpliter = {}
+            responseData.map( item => {
+                let email = this.extractEmails(item)
+
+                let contact = this.extractContact(item)
+                contact = contact != null ? contact.join('') : null
+
+                let name = item.split(email)
+                name = name.length !== 0 ? name[0] : null
+                let firstname = name.split(' ')[0]
+                let lastname = name.split(' ')[1] ? name.split(' ')[1] : null
+
+                let splitter = email.split('@')[0]
+                let isSplitter = splitter.split(firstname.toLowerCase())[1].length >= 1 ? splitter.split(firstname.toLowerCase())[1][0] : null
+
+                if(isSplitter) {
+                    if(commonSpliter[isSplitter]){
+                        commonSpliter[isSplitter] += 1
+                    }else{
+                        commonSpliter[isSplitter] = 1
+                    }
+                }
+                outputData.push({emails: email, designation: contact, firstname: firstname, lastname: lastname})
+            })
+
+            let finalSplitterString = commonSpliter.length > 0 ?  this.getCommmonSpliter(commonSpliter) : null
+
+            this.setState({displayResult: outputData, splitElement: finalSplitterString })
+            this.setState({result: outputData, loaderVisible: false})
+        }
+    }
+
     onSearchHandle = (event) => {
         this.setState({ searchInputEmpty: false });
         const {searchInput} = this.state;
         this.setState({loaderVisible: true})
-        if(CheckIsValidDomain(searchInput)){
-            // this.setState({result: this.emailArray});
-            fetch(`${config.prod_server_api}/email-search/domain-search`, {
-                method: 'POST',
-                mode: 'cors',
-                cache: 'no-cache',
-                credentials: 'same-origin',
-                headers: {
-                    'Authorization': `<Bearer> ${this.props.token}` ,
-                    'Content-Type': 'application/json'
-                },
-                redirect: 'follow',
-                referrerPolicy: 'no-referrer',
-                body: JSON.stringify({
-                    "details": {
-                        "domain": `${searchInput}`
-                    }
-                })
-            })
-                .then((response) => response.json())
-                .then((data) => {
 
-                    console.log(data)
-                    let details = data.rows
-                        if(data.rowCount !== 0){
-                            this.setState({result: details, totalResultCount: data.count})
-                        }else{
-                            this.setState({searchInputEmpty: true, errMessage: 'Sorry we are not able to find data for this domain'})
-                        }
-                    
-                    this.setState({loaderVisible: false})
+        /*
+         *  GETTING RESPONSE FROM LAMBDA FUNCTION
+         *  After response is recieved getAllData function will be called on the
+         *  response.
+         *  getAllData funciton is passed as callback function
+         *  and it takes err and data as its parameter. 
+        */
+        if(CheckIsValidDomain(searchInput)){
+            let lambda = new AWS.Lambda();
+            let params = {
+                FunctionName: 'emailFinder', /* required */
+                Payload: JSON.stringify({
+                'domainname': searchInput
                 })
-                .then(() => this.setresult(this.state.filterType))
-                .catch( err => { 
-                    console.log(err)
-                    this.setState({searchInputEmpty: true, errMessage: 'Sorry we are not able to find data for this domain', loaderVisible: false})
-                } 
-                )
-        }else{
-            this.setState({searchInputEmpty: true, errMessage: 'Please enter a valid domain', loaderVisible: false});
+            }
+            lambda.invoke(params, (err, data) => this.getAllData(err, data));
         }
+        /**
+         * Below this line a api request to node server is made
+         * this code will not be used for a while untill our db is
+         * filled with some data.
+        */
+        // if(CheckIsValidDomain(searchInput)){
+
+        //     fetch(`${config.prod_server_api}/email-search/domain-search`, {
+        //         method: 'POST',
+        //         mode: 'cors',
+        //         cache: 'no-cache',
+        //         credentials: 'same-origin',
+        //         headers: {
+        //             'Authorization': `<Bearer> ${this.props.token}` ,
+        //             'Content-Type': 'application/json'
+        //         },
+        //         redirect: 'follow',
+        //         referrerPolicy: 'no-referrer',
+        //         body: JSON.stringify({
+        //             "details": {
+        //                 "domain": `${searchInput}`
+        //             }
+        //         })
+        //     })
+        //         .then((response) => response.json())
+        //         .then((data) => {
+
+        //             console.log(data)
+        //             let details = data.rows
+        //                 if(data.rowCount !== 0){
+        //                     this.setState({result: details, totalResultCount: data.count})
+        //                 }else{
+        //                     this.setState({searchInputEmpty: true, errMessage: 'Sorry we are not able to find data for this domain'})
+        //                 }
+                    
+        //             this.setState({loaderVisible: false})
+        //         })
+        //         .then(() => this.setresult(this.state.filterType))
+        //         .catch( err => { 
+        //             console.log(err)
+        //             this.setState({searchInputEmpty: true, errMessage: 'Sorry we are not able to find data for this domain', loaderVisible: false})
+        //         } 
+        //         )
+        // }else{
+        //     this.setState({searchInputEmpty: true, errMessage: 'Please enter a valid domain', loaderVisible: false});
+        // }
         event.preventDefault();
     }
 
+    //          INPUT HANDLERS BELLOW         //
     onInputChange = (e) => {
         this.setState({ searchInputEmpty: false });
-        this.setState({ searchInput: e.target.value })
+        this.setState({ searchInput: e.target.value, result: [] })
     }
 
     handleFilterType = (e) => {
@@ -112,7 +211,9 @@ class DomainSearchDashboard extends Component {
         this.setState({filterType: filterTypeValue})
         this.setresult(filterTypeValue)
     }
+    // ______________________________________ //
 
+    //      Result filter handler below      //
     setresult = (filterTypeValue) => {
         const {result} = this.state;
         let tempResult;
@@ -126,8 +227,11 @@ class DomainSearchDashboard extends Component {
 
         this.setState({displayResult: tempResult})
     }
+    //_________________________________________//
+
+
     render() {
-        const {filterType, searchInput, result, searchInputEmpty, totalResultCount, errMessage, loaderVisible,displayResult } = this.state;
+        const {filterType, searchInput,splitElement, result, searchInputEmpty, totalResultCount, errMessage, loaderVisible,displayResult } = this.state;
         const FilterArray = this.FilterArray;
         const showSearchResult = result.length > 0;
         const onInputChange = this.onInputChange;
@@ -161,7 +265,7 @@ class DomainSearchDashboard extends Component {
                                 <div className="toolbar">
                                     <div id="type-filter">
                                         <div className="radios-container">
-                                            {
+                                            {/* {
                                                 FilterArray.map( (filter, idx) => (
                                                     <label className="radio-container" htmlFor={`${filter}-filter-field`} key={idx}>
                                                         <div className={`radio-icon fas ${ idx === filterType ? 'fa-check-circle' : 'fa-circle' }`}></div>
@@ -169,7 +273,7 @@ class DomainSearchDashboard extends Component {
                                                         <input defaultChecked={ idx === filterType} id={`${filter}-filter-field`} name="type" type="radio" value={idx} onClick={handleFilterType}/>
                                                     </label>
                                                 ))
-                                            }
+                                            } */}
                                         </div>
                                     </div>
                                     <div className="download-link d-none">
@@ -181,8 +285,11 @@ class DomainSearchDashboard extends Component {
                                 </div>
                                 <div className="search-results-container">
                                     {
+                                        console.log(splitElement)
+                                    }
+                                    {
                                         showSearchResult ? (
-                                            <DomainSearchResultLogin result={displayResult} totalResultCount={totalResultCount} filterType={filterType} />
+                                            <DomainSearchResultLogin result={displayResult} totalResultCount={totalResultCount} splitElement filterType={filterType} url={searchInput} />
                                         ) : ''
                                     }
                                 </div>
