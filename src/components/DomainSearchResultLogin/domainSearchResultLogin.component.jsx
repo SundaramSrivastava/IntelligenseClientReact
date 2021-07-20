@@ -7,10 +7,11 @@ import { connect } from "react-redux";
 import './domainSearchResultLogin.styles.css';
 
 
-function DomainSearchResultLogin({ result, isLoggedIn, totalResultCount, filterType }) {
+function DomainSearchResultLogin({ result, isLoggedIn, totalResultCount, filterType, splitElement, url }) {
     return (
         <>
             <div className="domainLogin result-information">
+                {splitElement ?
                 <div className="search-pattern"><span className="hidden-xs">Most common pattern: </span><strong>
                     <OverlayTrigger
                         placement="top"
@@ -26,7 +27,7 @@ function DomainSearchResultLogin({ result, isLoggedIn, totalResultCount, filterT
                             <span ref={ref} {...triggerHandler}>{`{f}`}</span>
                         )}
                     </OverlayTrigger>
-                    .
+                    {splitElement}
                     <OverlayTrigger
                         placement="top"
 
@@ -41,7 +42,8 @@ function DomainSearchResultLogin({ result, isLoggedIn, totalResultCount, filterT
                             <span ref={ref} {...triggerHandler}>{`{l}`}</span>
                         )}
                     </OverlayTrigger>
-                    @newgenapps.com</strong></div>
+                    @{url}</strong>
+                </div> : ''}
 
                 <div className="results-number">{result.length} email addresses</div>
             </div>
@@ -49,7 +51,7 @@ function DomainSearchResultLogin({ result, isLoggedIn, totalResultCount, filterT
                 {
                     result.slice(0, result.length ).map((emailObj, idx) => (
                         <div className="result" key={idx}>
-                            <div className="additional_data grey">{emailObj.firstname ? <span className="name">{emailObj.firstname} {emailObj.lastname}</span> : ''}{emailObj.designation ? <span className="position">{emailObj.designation}</span> : '' }</div>
+                            <div className="additional_data grey">{emailObj.firstname && emailObj.firstname[0] !== '[' ? <span className="name">{emailObj.firstname} {emailObj.lastname}</span> : ''}{emailObj.designation ? <span className="position">{emailObj.length > 5 ? emailObj.designation : ''}</span> : '' }</div>
                             <div className="email-container">
                                 {
                                         <div className="email">

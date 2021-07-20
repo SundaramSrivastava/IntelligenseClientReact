@@ -71,14 +71,13 @@ class DomainSearchDashboard extends Component {
 
     getCommmonSpliter = (dividerMap) => {
         let keysAre = Object.keys(dividerMap)
-
+        console.log(keysAre)
         let highest = keysAre[0]
         keysAre.map( (item, index) => {
-            if(highest < dividerMap[item]){
+            if(dividerMap[highest] < dividerMap[item]){
                 highest = keysAre[index]
             }
         })
-        console.log('highest -> ', highest)
         return highest
     }
 
@@ -109,22 +108,22 @@ class DomainSearchDashboard extends Component {
                 let firstname = name.split(' ')[0]
                 let lastname = name.split(' ')[1] ? name.split(' ')[1] : null
 
-                // let splitter = email.split('@')[0]
-                // let isSplitter = splitter.split(firstname.toLowerCase())[1].length >= 1 ? splitter.split(firstname.toLowerCase())[1][0] : null
-
-                // if(isSplitter) {
-                //     if(commonSpliter[isSplitter]){
-                //         commonSpliter[isSplitter] += 1
-                //     }else{
-                //         commonSpliter[isSplitter] = 1
-                //     }
-                // }
+                let splitter = email.split('@')[0]
+                let isSplitter = splitter.split(firstname.toLowerCase())[1] ? splitter.split(firstname.toLowerCase())[1].length >= 1 ? splitter.split(firstname.toLowerCase())[1][0] : null : null
+                // console.log(isSplitter)
+                if(isSplitter) {
+                    if(commonSpliter[isSplitter]){
+                        commonSpliter[isSplitter] += 1
+                    }else{
+                        commonSpliter[isSplitter] = 1
+                    }
+                }
                 outputData.push({emails: email, designation: contact, firstname: firstname, lastname: lastname})
             })
 
-            // let finalSplitterString = commonSpliter.length > 0 ?  this.getCommmonSpliter(commonSpliter) : null
-
-            this.setState({displayResult: outputData, splitElement: '.' })
+            let finalSplitterString = Object.keys(commonSpliter).length > 0 ?  this.getCommmonSpliter(commonSpliter) : null
+            console.log(finalSplitterString)
+            this.setState({displayResult: outputData, splitElement: finalSplitterString })
             this.setState({result: outputData, loaderVisible: false})
         }
     }
@@ -285,11 +284,8 @@ class DomainSearchDashboard extends Component {
                                 </div>
                                 <div className="search-results-container">
                                     {
-                                        console.log(splitElement)
-                                    }
-                                    {
                                         showSearchResult ? (
-                                            <DomainSearchResultLogin result={displayResult} totalResultCount={totalResultCount} splitElement filterType={filterType} url={searchInput} />
+                                            <DomainSearchResultLogin result={displayResult} totalResultCount={totalResultCount} splitElement={splitElement} filterType={filterType} url={searchInput} />
                                         ) : ''
                                     }
                                 </div>
