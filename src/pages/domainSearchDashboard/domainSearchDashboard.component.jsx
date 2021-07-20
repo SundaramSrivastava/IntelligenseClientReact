@@ -109,22 +109,22 @@ class DomainSearchDashboard extends Component {
                 let firstname = name.split(' ')[0]
                 let lastname = name.split(' ')[1] ? name.split(' ')[1] : null
 
-                let splitter = email.split('@')[0]
-                let isSplitter = splitter.split(firstname.toLowerCase())[1].length >= 1 ? splitter.split(firstname.toLowerCase())[1][0] : null
+                // let splitter = email.split('@')[0]
+                // let isSplitter = splitter.split(firstname.toLowerCase())[1].length >= 1 ? splitter.split(firstname.toLowerCase())[1][0] : null
 
-                if(isSplitter) {
-                    if(commonSpliter[isSplitter]){
-                        commonSpliter[isSplitter] += 1
-                    }else{
-                        commonSpliter[isSplitter] = 1
-                    }
-                }
+                // if(isSplitter) {
+                //     if(commonSpliter[isSplitter]){
+                //         commonSpliter[isSplitter] += 1
+                //     }else{
+                //         commonSpliter[isSplitter] = 1
+                //     }
+                // }
                 outputData.push({emails: email, designation: contact, firstname: firstname, lastname: lastname})
             })
 
-            let finalSplitterString = commonSpliter.length > 0 ?  this.getCommmonSpliter(commonSpliter) : null
+            // let finalSplitterString = commonSpliter.length > 0 ?  this.getCommmonSpliter(commonSpliter) : null
 
-            this.setState({displayResult: outputData, splitElement: finalSplitterString })
+            this.setState({displayResult: outputData, splitElement: '.' })
             this.setState({result: outputData, loaderVisible: false})
         }
     }
